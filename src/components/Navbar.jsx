@@ -59,7 +59,7 @@ export default function Navbar() {
 
           <div className="h-5 w-px bg-gray-700" />
 
-          <Link href="/auth/signup" className="text-sm text-violet-400">
+          <Link href="/auth/login" className="text-sm text-violet-400">
             Sign In
           </Link>
 
@@ -83,7 +83,7 @@ export default function Navbar() {
               </Link>
             ))}
 
-            <Link href="/auth/signup" className="text-violet-400">
+            <Link href="/auth/login" className="text-violet-400">
               Sign In
             </Link>
 

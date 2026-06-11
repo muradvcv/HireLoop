@@ -1,43 +1,64 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Check } from "@gravity-ui/icons";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
+import Link from "next/link";
+import { useState } from "react";
+import { BiError } from "react-icons/bi";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 const SignupPage = () => {
 
+  const [visibel, setVisible] = useState(false)
+  const [error, setError] = useState("");
+  const router = useRouter();
 
+  const handleForm = async (e) => {
+    e.preventDefault();
 
-  const handleForm =async(e)=>{
-    e.preventDefault()
-    const formData=new FormData(e.currentTarget)
-    const data=Object.fromEntries(formData.entries())
-    console.log(data);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
 
     try {
       const result = await authClient.signUp.email({
-        name,
-        email,
-        password,
+        name: data.name,
+        email: data.email,
+        password: data.password,
       });
 
-      console.log("Success:", result);
-    } catch (error) {
-      console.error("Signup Error:", error);
+      if (result.error) {
+        setError(result.error.message);
+        return;
+      }
+      toast.success("Account created successfully!");
+
+      setTimeout(() => {
+        router.push("/");
+      }, 1500);
+
+
+    } catch (err) {
+      setError(err.message || "Something went wrong");
     }
-  }
+  };
 
   return (
     <div className="max-w-7xl mx-auto min-h-[70vh] py-10 ">
 
       <Form className="flex w-96 flex-col gap-4 bg-[#534c4c5f] py-10 px-5 rounded-2xl" onSubmit={handleForm} >
-        <TextField isRequired name="name" type="text" validate={(value)=>{
-          if(/\d/.test(value)){
+        <TextField isRequired name="name" type="text" validate={(value) => {
+          if (/\d/.test(value)) {
             return "name can't be a number"
           }
         }}>
           <Label>Name</Label>
           <Input placeholder="Enter your valid name" />
-          <FieldError/>
+          <FieldError />
         </TextField>
 
         <TextField isRequired name="email" type="email" validate={(value) => {
@@ -55,7 +76,7 @@ const SignupPage = () => {
           isRequired
           minLength={8}
           name="password"
-          type="password"
+          type={visibel ? "text" : "password"}
           validate={(value) => {
             if (value.length < 8) {
               return "Password must be at least 8 characters";
@@ -73,6 +94,18 @@ const SignupPage = () => {
           <Input placeholder="Enter your password" />
           <Description>Must be at least 8 characters with 1 uppercase and 1 number</Description>
           <FieldError />
+          <Button className="bg-[#191818] relative left-70 -top-15"
+            type="button"
+            onClick={() => setVisible(!visibel)}>
+            {
+              visibel ? <FaEye /> : <FaEyeSlash />
+            }
+          </Button>
+          <Link href='/auth/login' className="flex gap-0 items-center">
+            <h1>Already have an account?</h1>
+            <Button className="bg-transparent text-[#1d99f8] underline">Login</Button>
+          </Link>
+
         </TextField>
         <div className="flex gap-2">
           <Button type="submit">
@@ -82,7 +115,13 @@ const SignupPage = () => {
           <Button type="reset" variant="secondary">
             Reset
           </Button>
+
         </div>
+        {error && (
+          <p className="text-red-500 text-sm font-medium flex items-center gap-1">
+            <BiError className="text-xl" />{error}
+          </p>
+        )}
       </Form>
 
     </div>
