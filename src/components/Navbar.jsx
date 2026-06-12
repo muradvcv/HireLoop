@@ -5,6 +5,9 @@ import { Link, Button } from "@heroui/react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { HiMenuAlt1 } from "react-icons/hi";
 import Image from "next/image";
+import { signOut, useSession } from "@/lib/auth-client";
+import { TbLogout } from "react-icons/tb";
+import { FaRegUserCircle } from "react-icons/fa";
 
 const navItems = [
   { label: "Browse Jobs", href: "#" },
@@ -12,9 +15,16 @@ const navItems = [
   { label: "Pricing", href: "#" },
 ];
 
-export default function Navbar() {
+export  default  function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const {data:session,isPending,error}=useSession();
+  const [openProfile,setOpenProfile]=useState(false)
+  const userInfo=session?.user;
 
+  const handleSignOut=async()=>{
+    await signOut();
+  }
+ 
   return (
     <nav className="sticky top-0 z-50 px-4 py-3 bg-black">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl bg-[#6f6b6b52] px-6">
@@ -59,9 +69,40 @@ export default function Navbar() {
 
           <div className="h-5 w-px bg-gray-700" />
 
-          <Link href="/auth/login" className="text-sm text-violet-400">
+        { userInfo? (
+            <div>
+              <button className="" onClick={() => setOpenProfile(!openProfile)}>
+                <FaRegUserCircle className="text-2xl cursor-pointer" />
+              </button>
+              {openProfile && (
+                <div className="absolute top-20 w-48 overflow-hidden rounded-xl border border-gray-700 bg-[#1a1a1a] shadow-xl backdrop-blur-md">
+
+                  <button className="flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-200 transition hover:bg-violet-600/20 hover:text-white">
+                    <FaRegUserCircle size={18} />
+                    Profile
+                  </button>
+
+                  <div className="h-px bg-gray-700" />
+
+                  <button onClick={handleSignOut} className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-400 transition hover:bg-red-500/20 hover:text-red-300">
+                    <TbLogout size={18} />
+                    Logout
+                  </button>
+
+                </div>
+              )}
+            </div>
+        
+          )
+          
+          :
+            
+            <Link href="/auth/login" className="text-sm text-violet-400">
             Sign In
           </Link>
+          }
+          
+
 
           <Button className="bg-violet-600 text-white">
             Get Started
@@ -83,9 +124,39 @@ export default function Navbar() {
               </Link>
             ))}
 
-            <Link href="/auth/login" className="text-violet-400">
-              Sign In
-            </Link>
+            {userInfo ? (
+              <div>
+                <button className="" onClick={() => setOpenProfile(!openProfile)}>
+                  <FaRegUserCircle className="text-2xl cursor-pointer" />
+                </button>
+                {openProfile && (
+                  <div className="absolute top-20 w-48 overflow-hidden rounded-xl border border-gray-700 bg-[#1a1a1a] shadow-xl backdrop-blur-md">
+
+                    <button className="flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-200 transition hover:bg-violet-600/20 hover:text-white">
+                      <FaRegUserCircle size={18} />
+                      Profile
+                    </button>
+
+                    <div className="h-px bg-gray-700" />
+
+                    <button onClick={()=>handleSignOut} className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-400 transition hover:bg-red-500/20 hover:text-red-300">
+                      <TbLogout size={18} />
+                      Logout
+                    </button>
+
+                  </div>
+                )}
+              </div>
+
+            )
+
+              :
+
+              <Link href="/auth/login" className="text-sm text-violet-400">
+                Sign In
+              </Link>
+            }
+
 
             <Button className="bg-violet-600 text-white">
               Get Started

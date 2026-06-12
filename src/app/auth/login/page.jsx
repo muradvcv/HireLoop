@@ -4,16 +4,19 @@ import { authClient } from "@/lib/auth-client";
 import { Check } from "@gravity-ui/icons";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiError } from "react-icons/bi";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 
 
 const LoginPage = () => {
   const [visibel, setVisible] = useState(false)
   const [error, setError] = useState("");
+  const router = useRouter()
 
   const handleForm = async (e) => {
     e.preventDefault();
@@ -32,7 +35,13 @@ const LoginPage = () => {
       if (result.error) {
         setError(result.error.message);
         return;
+       
       }
+      toast.success("You'e successfully loged in!");
+
+      setTimeout(() => {
+        router.push("/");
+      }, 500);
 
       console.log("Success:", result);
 
@@ -90,7 +99,7 @@ const LoginPage = () => {
             }
           </Button>
 
-         
+
 
         </TextField>
         <div className="flex flex-col gap-2">
