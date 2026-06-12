@@ -90,23 +90,24 @@ const LoginPage = () => {
             }
           </Button>
 
-          <Link href='/auth/signup' className="flex gap-0 items-center">
-            <h1>Dont have account?</h1>
-            <Button className="bg-transparent text-[#1d99f8] underline">Signup</Button>
-          </Link>
-
+         
 
         </TextField>
-        <div className="flex gap-2">
-          <Button type="submit">
+        <div className="flex flex-col gap-2">
+          <Button type="submit" className="w-full">
             <Check />
             Submit
           </Button>
-          <Button type="reset" variant="secondary">
+          <Button type="reset" variant="secondary" className="w-full">
             Reset
           </Button>
 
         </div>
+        <Link href='/auth/signup' className="flex gap-0 items-center">
+          <h1>Dont have account?</h1>
+          <Button className="bg-transparent text-[#1d99f8] underline">Signup</Button>
+        </Link>
+
         {error && (
           <p className="text-red-500 text-sm font-medium flex items-center gap-1">
             <BiError className="text-xl" />{error}
