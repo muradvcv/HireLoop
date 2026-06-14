@@ -1,9 +1,10 @@
 "use client";
-ew
 import { authClient } from "@/lib/auth-client";
 import { Check } from "@gravity-ui/icons";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
+import { Radio, RadioGroup } from "@heroui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiError } from "react-icons/bi";
 import { FaEye } from "react-icons/fa";
@@ -23,12 +24,14 @@ const SignupPage = () => {
 
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
+    // console.log(data,'my data');
 
     try {
       const result = await authClient.signUp.email({
         name: data.name,
         email: data.email,
         password: data.password,
+        role:data.role,
       });
 
       if (result.error) {
@@ -48,7 +51,7 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto min-h-[70vh] py-10 ">
+    <div className="max-w-8xl mx-auto min-h-[70vh] py-10 ">
 
       <Form className="flex w-96 flex-col gap-4 bg-[#534c4c5f] py-10 px-5 rounded-2xl" onSubmit={handleForm} >
         <TextField isRequired name="name" type="text" validate={(value) => {
@@ -91,24 +94,59 @@ const SignupPage = () => {
           }}
         >
           <Label>Password</Label>
-          <Input placeholder="Enter your password" />
-          <Description>Must be at least 8 characters with 1 uppercase and 1 number</Description>
-          <FieldError />
-          <Button className="bg-[#191818] relative left-70 -top-15"
-            type="button"
-            onClick={() => setVisible(!visibel)}>
-            {
-              visibel ? <FaEye /> : <FaEyeSlash />
-            }
-          </Button>
-        
 
+          <div className="relative w-full">
+            <Input
+              className="w-full"
+              placeholder="Enter your password"
+            />
+
+            <button
+              type="button"
+              onClick={() => setVisible(!visibel)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-10"
+            >
+              {visibel ? <FaEye /> : <FaEyeSlash />}
+            </button>
+          </div>
+
+          <Description>
+            Must be at least 8 characters with 1 uppercase and 1 number
+          </Description>
+
+          <FieldError />
         </TextField>
+
+        {/* role selection */}
+        <div className="flex flex-col gap-4">
+          <Label>What is youre role ?</Label>
+          <RadioGroup defaultValue="seeker" name="role" orientation="horizontal">
+            <Radio value="seeker">
+              <Radio.Control>
+                <Radio.Indicator />
+              </Radio.Control>
+              <Radio.Content>
+                <Label>Seeker</Label>
+              </Radio.Content>
+            </Radio>
+
+            <Radio value="recruiter">
+              <Radio.Control>
+                <Radio.Indicator />
+              </Radio.Control>
+              <Radio.Content>
+                <Label>Recruiter</Label>
+              </Radio.Content>
+            </Radio>
+
+          </RadioGroup>
+        </div>
+
         <div className="flex flex-col gap-2">
           <Button type="submit" className="w-full">
             <Check />
             Submit
-          </Button> 
+          </Button>
           <Button type="reset" variant="secondary" className="w-full">
             Reset
           </Button>

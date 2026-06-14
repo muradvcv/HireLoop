@@ -17,10 +17,10 @@ const navItems = [
 
 export  default  function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const {data:session,isPending,error}=useSession();
+  const {data:session,isPending}=useSession();
   const [openProfile,setOpenProfile]=useState(false)
-  const userInfo=session?.user;
-
+  const userInfo = session?.user;
+ 
   const handleSignOut=async()=>{
     await signOut();
   }
@@ -69,7 +69,9 @@ export  default  function Navbar() {
 
           <div className="h-5 w-px bg-gray-700" />
 
-        { userInfo? (
+          {isPending ? (
+            <div className="w-6 h-6 rounded-full bg-gray-600 animate-pulse" />
+          ) : userInfo ? (
             <div>
               <button className="" onClick={() => setOpenProfile(!openProfile)}>
                 <FaRegUserCircle className="text-2xl cursor-pointer" />
@@ -139,7 +141,7 @@ export  default  function Navbar() {
 
                     <div className="h-px bg-gray-700" />
 
-                    <button onClick={()=>handleSignOut} className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-400 transition hover:bg-red-500/20 hover:text-red-300">
+                    <button onClick={handleSignOut} className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-400 transition hover:bg-red-500/20 hover:text-red-300">
                       <TbLogout size={18} />
                       Logout
                     </button>

@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "title": "Frontend Developer",
+    "location": "New York, USA",
+    "type": "Hybrid",
+    "salary": "$25-$40/hour",
+    "description": "Showcase your commitment to diversity and inclusion by highlighting initiatives.",
+    "applyLink": "/jobs/1"
+  },
+  {
+    "id": 2,
+    "title": "React Developer",
+    "location": "San Francisco, USA",
+    "type": "Remote",
+    "salary": "$30-$50/hour",
+    "description": "Build modern web applications using React and TypeScript.",
+    "applyLink": "/jobs/2"
+  },
+  {
+    "id": 3,
+    "title": "Next.js Developer",
+    "location": "Toronto, Canada",
+    "type": "Remote",
+    "salary": "$28-$45/hour",
+    "description": "Develop scalable and SEO-friendly applications with Next.js.",
+    "applyLink": "/jobs/3"
+  },
+  {
+    "id": 4,
+    "title": "UI Developer",
+    "location": "London, UK",
+    "type": "Onsite",
+    "salary": "$22-$35/hour",
+    "description": "Create responsive and accessible user interfaces for web platforms.",
+    "applyLink": "/jobs/4"
+  },
+  {
+    "id": 5,
+    "title": "Frontend Engineer",
+    "location": "Berlin, Germany",
+    "type": "Hybrid",
+    "salary": "$35-$55/hour",
+    "description": "Work with cross-functional teams to deliver high-quality products.",
+    "applyLink": "/jobs/5"
+  },
+  {
+    "id": 6,
+    "title": "JavaScript Developer",
+    "location": "Sydney, Australia",
+    "type": "Remote",
+    "salary": "$27-$42/hour",
+    "description": "Build fast and interactive web experiences using modern JavaScript.",
+    "applyLink": "/jobs/6"
+  }
+]

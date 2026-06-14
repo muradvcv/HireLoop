@@ -1,5 +1,6 @@
 import Hero from "@/components/Home/Hero";
 import Status from "@/components/Home/Status";
+import JobSection from "@/components/JobSection";
 
 
 export default function Home() {
@@ -7,6 +8,7 @@ export default function Home() {
   <div>
     <Hero/>
     <Status/>
+    <JobSection/>
   </div>
   );
 }

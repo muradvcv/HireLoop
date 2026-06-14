@@ -39,10 +39,11 @@ const LoginPage = () => {
       }
       toast.success("You'e successfully loged in!");
 
-      setTimeout(() => {
-        router.push("/");
-      }, 500);
+      router.push("/");
 
+      setTimeout(() => {
+        router.refresh();
+      }, 100);
       console.log("Success:", result);
 
     } catch (err) {
