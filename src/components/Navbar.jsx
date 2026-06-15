@@ -20,6 +20,7 @@ export  default  function Navbar() {
   const {data:session,isPending}=useSession();
   const [openProfile,setOpenProfile]=useState(false)
   const userInfo = session?.user;
+  
  
   const handleSignOut=async()=>{
     await signOut();
