@@ -25,7 +25,9 @@ export function DashboardSideBar() {
 
   return (
     <>
+    
     <aside className="hidden w-64 shrink-0 border-r border-default lg:block">
+        <div className="text-4xl font-bold py-2 px-5">Hireloop</div>
       {navContend}
     </aside>
       <Drawer>

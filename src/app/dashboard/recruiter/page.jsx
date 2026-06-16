@@ -1,17 +1,27 @@
 "use client"
+import DashboardStats from '@/components/dashboard/DashboardStats';
 import { useSession } from '@/lib/auth-client';
-import React from 'react';
-
+import { FileText, Persons, Thunderbolt, CircleCheck } from "@gravity-ui/icons";
 const RecruiterDashboard = () => {
+
+
+
   const {data:session,isPending}=useSession()
   if(isPending){
     <h1>Loading..</h1>
   }
+  const statsData = [
+    { title: "Total Job Posts", value: 48, icon: FileText },
+    { title: "Total Applicants", value: "1,284", icon: Persons },
+    { title: "Active Jobs", value: 18, icon: Thunderbolt },
+    { title: "Jobs Closed", value: 32, icon: CircleCheck },
+  ];
   const user=session?.user;
-  console.log(user,'i got user');
+  
   return (
     <div>
-    <h1>I am a recruiter</h1>
+      <h1 className='text-4xl py-5 pl-5'>Welcome back, Alex Sterling</h1>
+    <DashboardStats stats={statsData}/>
     </div>
   );
 };
