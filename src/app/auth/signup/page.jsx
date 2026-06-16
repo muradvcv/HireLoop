@@ -120,7 +120,7 @@ const SignupPage = () => {
         {/* role selection */}
         <div className="flex flex-col gap-4">
           <Label>What is youre role ?</Label>
-          <RadioGroup defaultValue="seeker" name="role" orientation="horizontal">
+          <RadioGroup defaultValue="seeker" name="role" orientation="horizontal" isRequired>
             <Radio value="seeker">
               <Radio.Control>
                 <Radio.Indicator />
