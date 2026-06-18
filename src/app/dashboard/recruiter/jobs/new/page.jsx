@@ -1,17 +1,28 @@
 "use client"
-import { Button, Form, Input, Label, TextField, ListBox, Select, TextArea } from "@heroui/react";
+import { Button, Form, Input, Label, TextField, ListBox, Select, TextArea, toast } from "@heroui/react";
 import { Chip } from "@heroui/react";
 import { Calendar, Check } from '@gravity-ui/icons';
+import { createNewJob } from "@/lib/action/job";
+import { redirect } from "next/navigation";
 
 const PostNewJob = () => {
-  const onSubmit=(e)=>{
+  const onSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
-    console.log(data,'data');
+   const playload={
+    ...data,
+    status:'active'
+   }
+   const res=await createNewJob(playload)
+    if (res.insertedId) {
+      toast.success("Job posted successfully");
+      e.target.reset();
+      redirect("/dashboard/recruiter/jobs")
+    }
   }
   return (
-    <Form className="flex max-w-228 flex-col gap-4 mx-auto border border-[#1e1d1d] px-4 md:px-16 pb-16 py-5 rounded-2xl my-10" onSubmit={onSubmit}>
+    <Form className="flex max-w-228 flex-col gap-4 mx-auto border border-[#454141] px-4 md:px-16 pb-16 py-5 rounded-2xl my-10 bg-[#242222]" onSubmit={onSubmit}>
 
       {/* Header */}
       <div className="mb-8">
@@ -20,7 +31,7 @@ const PostNewJob = () => {
           <span>Fill out the details below to publish your open position.</span>
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-2 max-w-80 py-1 pl-2 rounded-2xl bg-[#38303056]">
-          <Calendar />
+          <Calendar className="font-bold text-[#ff9c07]" />
           <Chip variant="flat" size="sm" className="bg-default-100 text-default-600">
             Posting as Acme Corp (Auto-filled)
           </Chip>
@@ -84,10 +95,10 @@ const PostNewJob = () => {
           </Label>
           <div className="flex items-center gap-2">
             <TextField isRequired className="flex-1 min-w-0">
-              <Input name="minSalary" type="number" placeholder="Min Salary" className="w-full" />
+              <Input name="minSalary" type="number" placeholder="Min" className="w-full" />
             </TextField>
-            <TextField name="maxSalary" isRequired className="flex-1 min-w-0">
-              <Input type="number" placeholder="Max Salary" className="w-full" />
+            <TextField  isRequired className="flex-1 min-w-0">
+              <Input name="maxSalary" type="number" placeholder="Max" className="w-full" />
             </TextField>
             <Select name="currency" isRequired className="flex-1 min-w-0" placeholder="Currency">
               <Select.Trigger>
@@ -111,7 +122,7 @@ const PostNewJob = () => {
         <TextField isRequired className="w-full">
           <Label className="mb-2">Location</Label>
           <Input
-          name="location"
+            name="location"
             placeholder="e.g. Dhaka, Bangladesh / Remote"
             className="w-full bg-default-100/5 border border-default-100/10 h-12"
           />
@@ -119,7 +130,7 @@ const PostNewJob = () => {
         <TextField isRequired className="w-full">
           <Label className="mb-2">Application Deadline</Label>
           <Input
-          name="date"
+            name="date"
             type="date"
             className="w-full bg-default-100/5 border border-default-100/10 h-12"
           />
@@ -130,28 +141,31 @@ const PostNewJob = () => {
       <h2 className="text-2xl font-bold text-gray-400">Job Details</h2>
 
       {/* Responsibility */}
-      <TextField isRequired name="responsibility" className="w-full">
+      <TextField isRequired  className="w-full">
         <Label>Responsibility</Label>
         <TextArea
-          placeholder="e.g. Lead frontend development, conduct code reviews, collaborate with design team..."
+          name="responsibility"
+          placeholder="e.g. Lead frontend development,collaborate with design team..."
           variant="secondary"
         />
       </TextField>
 
       {/* Requirements */}
-      <TextField isRequired name="requirements" className="w-full">
+      <TextField isRequired  className="w-full">
         <Label>Requirements</Label>
         <TextArea
-          placeholder="e.g. 3+ years of React experience, proficiency in TypeScript, strong problem-solving skills..."
+          name="requirements"
+          placeholder="e.g. 3+ years of React experience,strong problem-solving skills..."
           variant="secondary"
         />
       </TextField>
 
       {/* Benefits — optional, no isRequired */}
-      <TextField name="benefits" className="w-full">
+      <TextField  className="w-full">
         <Label>Benefits (Optional)</Label>
         <TextArea
-          placeholder="e.g. Health insurance, remote work, flexible hours, annual bonus, learning budget..."
+          name="benefits"
+          placeholder="e.g. Health insurance, remote work,annual bonus, learning budget..."
           variant="secondary"
         />
       </TextField>

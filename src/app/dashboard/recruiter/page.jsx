@@ -11,10 +11,10 @@ const RecruiterDashboard = () => {
     <h1>Loading..</h1>
   }
   const statsData = [
-    { title: "Total Job Posts", value: 48, icon: FileText },
-    { title: "Total Applicants", value: "1,284", icon: Persons },
-    { title: "Active Jobs", value: 18, icon: Thunderbolt },
-    { title: "Jobs Closed", value: 32, icon: CircleCheck },
+    { title: "Total jobs", value: 48, icon: FileText, },
+    { title: "people", value: "1,284", icon: Persons },
+    { title: "Active jobs", value: 18, icon: Thunderbolt },
+    { title: "Applications", value: 32, icon: CircleCheck },
   ];
   const user=session?.user;
   

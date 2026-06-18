@@ -80,10 +80,10 @@ export  default  function Navbar() {
               {openProfile && (
                 <div className="absolute top-20 w-48 overflow-hidden rounded-xl border border-gray-700 bg-[#1a1a1a] shadow-xl backdrop-blur-md">
 
-                  <button className="flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-200 transition hover:bg-violet-600/20 hover:text-white">
+                    <Link href="/dashboard/recruiter" className="flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-200 transition hover:bg-violet-600/20 hover:text-white">
                     <FaRegUserCircle size={18} />
                     Profile
-                  </button>
+                  </Link>
 
                   <div className="h-px bg-gray-700" />
 
@@ -135,10 +135,10 @@ export  default  function Navbar() {
                 {openProfile && (
                   <div className="absolute top-20 w-48 overflow-hidden rounded-xl border border-gray-700 bg-[#1a1a1a] shadow-xl backdrop-blur-md">
 
-                    <button className="flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-200 transition hover:bg-violet-600/20 hover:text-white">
+                    <Link href="/dashboard/recruiter" className="flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-200 transition hover:bg-violet-600/20 hover:text-white">
                       <FaRegUserCircle size={18} />
                       Profile
-                    </button>
+                    </Link>
 
                     <div className="h-px bg-gray-700" />
 
