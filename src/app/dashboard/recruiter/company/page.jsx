@@ -1,11 +1,12 @@
 import React from 'react';
 import RegisterCompanyModal from './RegisterCompanyModal';
+import { getLoggedInRecruiterCompany } from '@/lib/api/getCompanies';
 import { getUserSession } from '@/lib/core/session';
-import { getCompanies } from '@/lib/api/getCompanies';
 
 const CompanyPage = async() => {
-  const user=await getUserSession();
-  const company=await getCompanies(user.id);
+  const user= await getUserSession();
+
+ const company =await getLoggedInRecruiterCompany()
   
   return (
     <div>

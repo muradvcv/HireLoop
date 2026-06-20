@@ -10,7 +10,7 @@ import { TbLogout } from "react-icons/tb";
 import { FaRegUserCircle } from "react-icons/fa";
 
 const navItems = [
-  { label: "Browse Jobs", href: "#" },
+  { label: "Browse Jobs", href: "/jobs" },
   { label: "Company", href: "#" },
   { label: "Pricing", href: "#" },
 ];

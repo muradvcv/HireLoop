@@ -1,16 +1,19 @@
 "use client";
 
-import { Button, Form, Input, Label, ListBox, Modal, Select, toast} from "@heroui/react";
-import { Xmark, Globe, LocationArrow, ArrowUpFromLine,Factory, CirclePlusFill } from "@gravity-ui/icons";
+import { Button, Form, Input, Label, ListBox, Modal, Select, toast } from "@heroui/react";
+import { Xmark, Globe, LocationArrow, ArrowUpFromLine, Factory, CirclePlusFill } from "@gravity-ui/icons";
 import { useState } from "react";
 import { createCompany } from "@/lib/action/companis";
 
 export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
   const [isOpen, setIsOpen] = useState(false);
-  const company = recruiterCompany ?? null;
-  console.log(recruiterCompany,'data paise re vai');
-  
-  const onSubmit = async(e) => {
+  const [company, setCompany] = useState(
+    recruiterCompany && Object.keys(recruiterCompany).length > 0
+      ? recruiterCompany
+      : null
+  );
+
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
@@ -25,26 +28,23 @@ export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
       recruiterId: recuiter.id,
     };
 
-    setCompany(companyData);
-    setIsOpen(false);
-    const playload=await createCompany(companyData);
-    if(playload.success){
-      toast.success("Company registered successfully!")
+    const payload = await createCompany(companyData);
+    if (payload.success) {
+      setCompany(companyData); // ✅ state update
+      setIsOpen(false);
+      toast.success("Company registered successfully!");
     }
-   
   };
-  
 
-  // ── Company already registered ─────────────────────────────────────
-  if (company) {
+  // ── Company আছে → card দেখাও ──────────────────────────────────────
+  if (company?._id) {
     return (
       <div className="flex min-h-[300px] items-center justify-center p-6">
         <div className="w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-[#0d0d0f] text-white shadow-2xl">
-          {/* Card header */}
           <div className="border-b border-white/10 px-6 py-4">
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-lg font-semibold">
-                {(company?.name )}
+                {company.name?.[0]}
               </div>
               <div>
                 <p className="text-base font-semibold">{company.name}</p>
@@ -52,8 +52,6 @@ export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
               </div>
             </div>
           </div>
-
-          {/* Card body */}
           <div className="grid gap-4 px-6 py-4 text-sm md:grid-cols-2">
             <div>
               <p className="text-xs uppercase tracking-wide text-neutral-500">Location</p>
@@ -74,8 +72,6 @@ export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
               <p className="mt-1 leading-relaxed text-neutral-300">{company.description}</p>
             </div>
           </div>
-
-          {/* Success footer */}
           <div className="border-t border-white/10 bg-[#101012] px-6 py-3">
             <p className="text-xs text-emerald-400">✓ Company registered successfully</p>
           </div>
@@ -84,30 +80,28 @@ export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
     );
   }
 
-  // ── No company yet ─────────────────────────────────────────────────
+  // ── Company nai → empty state + modal ─────────────────────────────
   return (
     <>
-      {/* Empty state */}
-      {!isOpen && (
-        <div className="flex min-h-[300px] flex-col items-center justify-center gap-5 rounded-2xl border border-white/10 bg-[#0d0d0f] p-10 text-center text-white">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/5">
-            <Factory className="h-7 w-7 text-neutral-400" />
-          </div>
-          <div>
-            <p className="text-lg font-semibold">No company registered</p>
-            <p className="mt-1 max-w-xs text-sm text-neutral-400">
-              You  registered a company yet. Add your business details to start hiring on HireLoop.
-            </p>
-          </div>
-          <button
-            onClick={() => setIsOpen(true)}
-            className="flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-medium text-black transition hover:bg-neutral-200"
-          >
-            <CirclePlusFill className="h-4 w-4" />
-            Register a company
-          </button>
+      {/* Empty State */}
+      <div className="flex min-h-[300px] flex-col items-center justify-center gap-5 rounded-2xl border border-white/10 bg-[#0d0d0f] p-10 text-center text-white">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/5">
+          <Factory className="h-7 w-7 text-neutral-400" />
         </div>
-      )}
+        <div>
+          <p className="text-lg font-semibold">No company registered</p>
+          <p className="mt-1 max-w-xs text-sm text-neutral-400">
+            Please register your company to start posting jobs and attracting top talent on HireLoop.
+          </p>
+        </div>
+        <button
+          onClick={() => setIsOpen(true)}
+          className="flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-medium text-black transition hover:bg-neutral-200"
+        >
+          <CirclePlusFill className="h-4 w-4" />
+          Register a company
+        </button>
+      </div>
 
       {/* Modal */}
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
@@ -116,7 +110,6 @@ export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
             <Form onSubmit={onSubmit}>
               <Modal.Dialog className="w-full max-w-2xl overflow-hidden rounded-2xl border border-white/10 bg-[#0d0d0f] text-white shadow-2xl">
 
-                {/* Header */}
                 <Modal.Header className="border-b border-white/10 px-6 py-3">
                   <div className="flex w-full items-start justify-between">
                     <div>
@@ -136,11 +129,8 @@ export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
                   </div>
                 </Modal.Header>
 
-                {/* Body */}
                 <Modal.Body className="px-6 py-4">
                   <div className="grid gap-5 md:grid-cols-2">
-
-                    {/* Company Name */}
                     <div>
                       <label className="mb-2 block text-sm text-neutral-300">Company Name</label>
                       <div className="rounded-xl border border-white/10 bg-[#151518] hover:border-white/20 transition">
@@ -152,7 +142,6 @@ export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
                       </div>
                     </div>
 
-                    {/* Industry */}
                     <div>
                       <Select name="industry" isRequired className="w-full mt-3" placeholder="Select industry">
                         <Label>Industry / Category</Label>
@@ -171,21 +160,19 @@ export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
                       </Select>
                     </div>
 
-                    {/* Website */}
                     <div>
                       <label className="mb-2 block text-sm text-neutral-300">Website URL</label>
-                      <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#151518] px-4 transition hover:border-white/20">
+                      <Label className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#151518] px-4 transition hover:border-white/20">
                         <Globe className="h-4 w-4 shrink-0 text-neutral-500" />
                         <Input
-                        type="url"
+                          type="url"
                           name="website"
                           placeholder="https://www.company.com"
                           className="w-full bg-transparent py-3 text-sm text-white placeholder:text-neutral-500 outline-none"
                         />
-                      </div>
+                      </Label>
                     </div>
 
-                    {/* Location */}
                     <div>
                       <label className="mb-2 block text-sm text-neutral-300">Location</label>
                       <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#151518] px-4 transition hover:border-white/20">
@@ -198,7 +185,6 @@ export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
                       </div>
                     </div>
 
-                    {/* Employee Count */}
                     <div>
                       <Select name="employeeCount" isRequired className="w-full mt-3" placeholder="Select range">
                         <Label>Employee Count Range</Label>
@@ -218,7 +204,6 @@ export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
                       </Select>
                     </div>
 
-                    {/* Logo Upload */}
                     <div>
                       <label className="mb-2 block text-sm text-neutral-300">Company Logo</label>
                       <div className="flex h-14 cursor-pointer items-center gap-3 rounded-xl border border-dashed border-white/15 bg-[#151518] px-4 transition hover:border-white/30">
@@ -233,7 +218,6 @@ export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
                     </div>
                   </div>
 
-                  {/* Description */}
                   <div className="mt-5">
                     <label className="mb-2 block text-sm text-neutral-300">Brief Description</label>
                     <div className="rounded-xl border border-white/10 bg-[#151518] transition hover:border-white/20">
@@ -247,7 +231,6 @@ export default function RegisterCompanyModal({ recuiter, recruiterCompany }) {
                   </div>
                 </Modal.Body>
 
-                {/* Footer */}
                 <Modal.Footer className="border-t border-white/10 bg-[#101012] px-6 py-4">
                   <div className="flex w-full justify-end gap-3">
                     <Button

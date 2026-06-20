@@ -1,12 +1,21 @@
+import { getLoggedInRecruiterCompany } from '@/lib/api/getCompanies';
 import { getCompanyJobs } from '@/lib/api/getCompanyJobs';
 import { Eye, Pencil, TrashBin } from '@gravity-ui/icons';
 import { Table } from '@heroui/react';
 import React from 'react';
 
 const ReqruiterJobs = async() => {
-  const id ='6a32d1eff52efae9c763deb0';
-  const jobs=await getCompanyJobs(id)
-  console.log(jobs,'all jobs');
+  const company=await getLoggedInRecruiterCompany()
+  if (!company) {
+    return (
+      <div className="p-4 text-red-500">
+        No company found for this recruiter
+      </div>
+    );
+  }
+  const jobs=await getCompanyJobs(company._id)
+  
+ console.log(jobs,"alllllllllll jobbbbbbbbbbbsssssssss");
   return (
 
     <div className="py-5 max-w-4xl p-4 rounded-xl">

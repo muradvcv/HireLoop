@@ -2,13 +2,26 @@
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 // get data from the server
-export const getData=async(path)=>{
- const res=await fetch(`${baseUrl}${path}`);
- const data=await res.json();
- return data;
-}
+export const getData = async (path) => {
+  try {
+    const res = await fetch(`${baseUrl}${path}`);
 
+    if (!res.ok) {
+      throw new Error(`HTTP Error ${res.status}`);
+    }
 
+    const text = await res.text();
+
+    if (!text) {
+      return null;
+    }
+
+    return JSON.parse(text);
+  } catch (error) {
+    console.error("GET DATA ERROR:", error);
+    return null;
+  }
+};
 
 
 
