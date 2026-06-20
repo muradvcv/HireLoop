@@ -4,7 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { Check } from "@gravity-ui/icons";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { BiError } from "react-icons/bi";
 import { FaEye } from "react-icons/fa";
@@ -17,6 +17,9 @@ const LoginPage = () => {
   const [visibel, setVisible] = useState(false)
   const [error, setError] = useState("");
   const router = useRouter()
+
+  const earchParams=useSearchParams();
+  const redirect = earchParams.get("redirect") || "/";
 
   const handleForm = async (e) => {
     e.preventDefault();
@@ -39,7 +42,7 @@ const LoginPage = () => {
       }
       toast.success("You'e successfully loged in!");
 
-      router.push("/");
+      router.push(redirect);
 
       setTimeout(() => {
         router.refresh();
@@ -113,7 +116,7 @@ const LoginPage = () => {
           </Button>
 
         </div>
-        <Link href='/auth/signup' className="flex gap-0 items-center">
+        <Link href={`/auth/signup?redirect=${redirect}`} className="flex gap-0 items-center">
           <h1>Dont have account?</h1>
           <Button className="bg-transparent text-[#1d99f8] underline">Signup</Button>
         </Link>

@@ -19,6 +19,7 @@ const RecruiterDashboard = () => {
   const user=session?.user;
   
   return (
+    
     <div>
       <h1 className='text-4xl py-5 pl-5'>Welcome back, Alex Sterling</h1>
     <DashboardStats stats={statsData}/>

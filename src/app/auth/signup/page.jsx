@@ -4,7 +4,7 @@ import { Check } from "@gravity-ui/icons";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import { Radio, RadioGroup } from "@heroui/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { BiError } from "react-icons/bi";
 import { FaEye } from "react-icons/fa";
@@ -15,6 +15,9 @@ const SignupPage = () => {
 
   const [visibel, setVisible] = useState(false)
   const [error, setError] = useState("");
+
+  const searchParams=useSearchParams();
+  const redirect = searchParams.get("redirect") || "/";
   const router = useRouter();
 
   const handleForm = async (e) => {
@@ -41,7 +44,7 @@ const SignupPage = () => {
       toast.success("Account created successfully!");
 
       setTimeout(() => {
-        router.push("/");
+        router.push(redirect);
       }, 500);
 
 

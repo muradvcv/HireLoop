@@ -1,9 +1,11 @@
 import { getJobs } from "@/lib/api/getCompanyJobs";
 import { Button, Card, Chip } from "@heroui/react";
 import { MapPin, Briefcase, ArrowRight, ArrowBigRight } from "lucide-react";
+import Link from "next/link";
 
 const JobCard = async () => {
   const jobs = await getJobs();
+  console.log(jobs,"jobs");
 
   const getPostedTime = (createdAt) => {
     const now = new Date();
@@ -27,6 +29,8 @@ const JobCard = async () => {
           className="group bg-[#0B0B0F] border border-zinc-800 hover:border-violet-500/50 hover:-translate-y-1 transition-all duration-300"
         >
           <div className="p-6 h-full flex flex-col">
+            {/* company name */}
+            <h2>Company Name:{job.companyName}</h2>
             {/* Title */}
             <h2 className="text-2xl font-bold text-white line-clamp-1">
               {job.jobTitle}
@@ -36,6 +40,7 @@ const JobCard = async () => {
             <p className="mt-3 text-sm text-zinc-400 line-clamp-2">
               {job.responsibility}
             </p>
+
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mt-5">
@@ -70,20 +75,22 @@ const JobCard = async () => {
                 Posted -{getPostedTime(job.createdAt)}
               </span>
 
-              <Button
-                size="sm"
-                variant="light"
-                className="text-white group-hover:text-violet-400 transition-colors"
-                endContent={
-                  <ArrowRight
-                    size={16}
-                    className="group-hover:translate-x-1 transition-transform"
-                  />
-                }
-              >
-                <ArrowBigRight size={16} className="mr-1" />
-                Apply
-              </Button>
+             <Link href={`/jobs/${job._id}`}>
+                <Button
+                  size="sm"
+                  variant="light"
+                  className="text-white group-hover:text-violet-400 transition-colors"
+                  endContent={
+                    <ArrowRight
+                      size={16}
+                      className="group-hover:translate-x-1 transition-transform"
+                    />
+                  }
+                >
+                  <ArrowBigRight size={16} className="mr-1" />
+                  Apply
+                </Button>
+                </Link>
             </div>
           </div>
         </Card>

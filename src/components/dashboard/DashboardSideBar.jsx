@@ -9,7 +9,7 @@ export function DashboardSideBar() {
     { icon: LayoutDashboard, href:"/dashboard/recruiter", label: "Dashboard" },
     { icon: BriefcaseBusiness, href: "/dashboard/recruiter/jobs", label: "All Jobs" },
     { icon: Building2, href: "/dashboard/recruiter/company", label: "My Company" },
-    { icon: CirclePlus, href: "/dashboard/recruiter/jobs/new", label: "Create a Job" },
+    { icon: CirclePlus, href: "/dashboard/recruiter/jobs/new", label: "Post a Job" },
     { icon: ClipboardList, href: "/", label: "Applications" },
     { icon: Settings, href: "/setting", label: "Settings" },
   
