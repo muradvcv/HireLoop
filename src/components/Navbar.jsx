@@ -12,7 +12,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 const navItems = [
   { label: "Browse Jobs", href: "/jobs" },
   { label: "Company", href: "#" },
-  { label: "Pricing", href: "#" },
+  { label: "Pricing", href: "/plans" },
 ];
 
 export  default  function Navbar() {
