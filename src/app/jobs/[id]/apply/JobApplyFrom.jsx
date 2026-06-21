@@ -8,15 +8,16 @@ export default function ApplyForm({ applicant, job }) {
   const handleSubmit = async(e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget));
-   
+  //  console.log(applicant,'sfadddddddd');
     const submission={
       ...data,
       jobId:job._id,
       applicantName:applicant.name,
       applicantEmail:applicant.email,
-      jobTitle:job.jobTitle
+      jobTitle:job.jobTitle,
+      applicantId:applicant.id
     }
-    console.log(submission, 'dadaaaaaaaaaa');
+    // console.log(submission, 'dadaaaaaaaaaa');
     const res = await submitApplication(submission)
     if(res.insertedId){
       alert("dta submitted")
@@ -55,7 +56,6 @@ export default function ApplyForm({ applicant, job }) {
 
           <Form onSubmit={handleSubmit} className="space-y-6 w-full">
 
-            {/* wrapper center + max width */}
             <div className="w-full flex justify-center">
               <div className="w-full max-w-xl space-y-6">
 
@@ -65,6 +65,7 @@ export default function ApplyForm({ applicant, job }) {
                   <Input
                     name="email"
                     defaultValue={applicant?.email || ""}
+                    required
                     className="w-full bg-black/30 border-white/10 text-white"
                   />
                 </div>
@@ -75,6 +76,7 @@ export default function ApplyForm({ applicant, job }) {
                   <Input
                     name="phone"
                     placeholder="+8801XXXXXXXXX"
+                    required
                     className="w-full bg-black/30 border-white/10 text-white"
                   />
                 </div>
@@ -83,8 +85,10 @@ export default function ApplyForm({ applicant, job }) {
                 <div className="space-y-2">
                   <Label className="text-white/70">Resume Link</Label>
                   <Input
+                    type="url"
                     name="resume"
                     placeholder="https://drive.google.com/..."
+                    required
                     className="w-full bg-black/30 border-white/10 text-white"
                   />
                 </div>
@@ -95,6 +99,7 @@ export default function ApplyForm({ applicant, job }) {
                   <TextArea
                     name="coverLetter"
                     placeholder={`Why join ${job.companyName}?`}
+                    required
                     className="w-full min-h-[140px] bg-black/30 border-white/10 text-white"
                   />
                 </div>
