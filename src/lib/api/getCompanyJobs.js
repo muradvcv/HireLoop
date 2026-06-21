@@ -12,7 +12,9 @@ export const getJobs=async()=>{
   return getData(`/api/jobs`);
 }
 
-
+export const getJobById=async(jobid)=>{
+  return getData(`/api/jobs/${jobid}`);
+}
 
 
 export const getCompanyJobs = async (companyId) => {

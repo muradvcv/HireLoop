@@ -1,13 +1,14 @@
+import { getJobById } from '@/lib/api/getCompanyJobs';
 import { getUserSession } from '@/lib/core/session';
 import { redirect } from 'next/navigation';
 import React from 'react';
+import JobApplyFrom from './JobApplyFrom';
 
 const ApplyPage = async ({ params }) => {
-  const { id } = params;
+  const { id } =await params;
 
   const user = await getUserSession();
-  console.log(user,"users");
-
+  
   if (!user) {
     redirect(`/auth/login?redirect=/jobs/${id}/apply`);
   }
@@ -22,10 +23,11 @@ const ApplyPage = async ({ params }) => {
       </div>
     );
   }
+  const job=await getJobById(id);
 
   return (
     <div className="max-w-7xl mx-auto min-h-[70vh] py-10">
-      <h1>Apply for Job</h1>
+      <JobApplyFrom applicant={user} job={job}/>
     </div>
   );
 };
